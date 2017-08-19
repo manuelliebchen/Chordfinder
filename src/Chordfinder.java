@@ -1,3 +1,7 @@
+import MusicUntility.Guitar;
+import MusicUntility.Piano;
+import MusicUntility.Scale;
+import processing.core.PApplet;
 
 public class Chordfinder{
 
@@ -12,6 +16,7 @@ public class Chordfinder{
 				gitarre = new Guitar( scale);
 				
 				System.out.println(scale);
+				System.out.println();
 				System.out.println(scale.printChord());
 				System.out.println();
 				System.out.println(gitarre);
@@ -29,6 +34,9 @@ public class Chordfinder{
 					System.out.println(gitarre);
 					System.out.println();
 				}
+				break;
+			case "-g":
+				PApplet.main("GUI");
 				break;
 			default:
 				System.out.println("[key][mode]\nlike\tD#/Eb Major");

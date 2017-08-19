@@ -1,3 +1,4 @@
+package MusicUntility;
 
 public class Guitar {
 	
@@ -14,7 +15,7 @@ public class Guitar {
 		this.scale = scale;
 	}
 	
-	Guitar( Scale scale){
+	public Guitar( Scale scale){
 		this(NORMAL_TUNING, scale);
 	}
 	
@@ -28,6 +29,10 @@ public class Guitar {
 	
 	public int getStringNum(){
 		return sites.length;
+	}
+	
+	public Site getString(int n){
+		return sites[n];
 	}
 	
 	@Override

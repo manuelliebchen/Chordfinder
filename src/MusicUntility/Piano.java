@@ -1,3 +1,4 @@
+package MusicUntility;
 public class Piano {
 	
 	Scale scale;
@@ -17,7 +18,7 @@ public class Piano {
 			+"|_____|_____|_____|_____|_____|_____|_____|";
 			
 
-	Piano(Scale scale){
+	public Piano(Scale scale){
 		this.scale = scale;
 	}
 	

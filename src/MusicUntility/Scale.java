@@ -1,8 +1,9 @@
+package MusicUntility;
 import java.util.InputMismatchException;
 
 public class Scale {
 	final static int SCALE_LENGHT = 8;
-	final static int OCTAVE_LENGHT = 12;
+	public final static int OCTAVE_LENGHT = 12;
 	
 	final static int[] MAJOR = {2,2,1,2,2,2,1,2,2};
 	final static int[] MINOR = {2,1,2,2,1,2,2,2,1};
@@ -26,7 +27,7 @@ public class Scale {
 	
 	int[] scale = {1,0,2,0,3,4,0,5,0,6,0,7};
 	
-	Scale(int root, boolean isMajor){
+	public Scale(int root, boolean isMajor){
 		this.root = root;
 		this.isMajor = isMajor;
 		
@@ -37,7 +38,7 @@ public class Scale {
 	 * @param root the first tone of the Scale
 	 * @param isMajor - whether or not it is a major or a minor scale.
 	 */
-	Scale(String root, boolean isMajor){
+	public Scale(String root, boolean isMajor){
 		this(getNote(root), isMajor);
 	}
 	

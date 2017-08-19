@@ -1,3 +1,4 @@
+package MusicUntility;
 
 public class Site {
 	int tune = 0;
@@ -9,7 +10,7 @@ public class Site {
 	}
 	
 	Site(String tune){
-		this.length = 12;
+		this.length = 13;
 		this.tune = Scale.getNote(tune);
 	}
 	
@@ -30,6 +31,14 @@ public class Site {
 			node = (node +1)%Scale.OCTAVE_LENGHT;
 		}
 		return s;
+	}
+	
+	public String getTune(){
+		return Scale.getName(tune);
+	}
+	
+	public int getTuneNummber(){
+		return tune;
 	}
 	
 	public int getLenght(){
