@@ -69,6 +69,19 @@ public class Scale {
 		return s;
 	}
 	
+	public String printChord() {
+		String s = "Chords:\n";
+		int note = root;
+		int[] halfsteps = (isMajor ? MAJOR : MINOR);
+		for(int i = 0; i < SCALE_LENGHT-1; i++){
+			s += String.format("%s ", getName(note));
+			note = (note + halfsteps[i]) % OCTAVE_LENGHT;
+			s += (halfsteps[i] + halfsteps[(i+1) % SCALE_LENGHT] == 4) ? "Maj" : "Min";
+			s += " - ";
+		}
+		return s;
+	}
+	
 	public static int[] getScale(int root, boolean isMajor){
 		int[] scale = new int[OCTAVE_LENGHT];
 		root = root % OCTAVE_LENGHT;

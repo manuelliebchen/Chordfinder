@@ -10,7 +10,9 @@ public class Chordfinder{
 			case "-s":
 				scale = new Scale(args[i+1], (args[i+2].equals("Minor")?false:true));
 				gitarre = new Guitar( scale);
+				
 				System.out.println(scale);
+				System.out.println(scale.printChord());
 				System.out.println();
 				System.out.println(gitarre);
 				
