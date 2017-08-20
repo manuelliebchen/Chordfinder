@@ -22,6 +22,10 @@ public class Piano {
 		this.scale = scale;
 	}
 	
+	public void setScale(Scale scale) {
+		this.scale = scale;
+	}
+	
 	@Override
 	public String toString() {
 		char[] chars = new char[12];

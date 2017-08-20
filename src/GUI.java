@@ -25,14 +25,13 @@ public class GUI extends PApplet {
 	@Override
 	public void setup() {
 		colorMode(HSB, 360, 100, 100);
-		background(224);
 		noLoop();
 		super.setup();
 	}
 	
 	@Override
 	public void draw() {
-		
+		background(224);
 		
 		//Draw Piano
 		pushStyle();
@@ -137,11 +136,53 @@ public class GUI extends PApplet {
 		popMatrix();
 		popStyle();
 		
-		
-		super.draw();
 	}
 	
+	@Override
+	public void mouseClicked() {
+		//half keys
+		int tune = 1;
+		int xpos = 35+50;
+		for(int i = 0; i < 10; i++){
+			if(mouseX > xpos && mouseX < xpos + 30 && mouseY > 0 && mouseY < 200){
+				scale = new Scale(tune, true);
+				guitare.setScale(scale);
+				piano.setScale(scale);
+				redraw();
+				return;
+			}
+			xpos += 50;
+			tune += 2;
+			if(i % 5 == 1||i % 5 == 4){
+				tune++;
+				xpos += 50;
+			}
+		}
+		
+		//hole keys
+		tune = 0;
+		xpos = 50;
+		for(int i = 0; i < 14; i++){
+			if(mouseX > xpos && mouseX < xpos + 50 && mouseY > 0 && mouseY < 300){
+				scale = new Scale(tune, true);
+				guitare.setScale(scale);
+				piano.setScale(scale);
+				redraw();
+				return;
+			}
+			xpos += 50;
+			tune += 2;
+			if(i % 7 == 2 || i % 7 == 6){
+				tune--;
+			}
+		}
+		
+		
+	}
+	
+	private final float[] toneColor = {0,30,60,120,180,240,300};
+	
 	public float getHueOfNote(int inScale){
-		return ((inScale - 1) * (360 / 7)) % 360;
+		return toneColor[(inScale - 1)%7];
 	}
 }

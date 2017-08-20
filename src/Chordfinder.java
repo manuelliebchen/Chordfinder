@@ -39,7 +39,9 @@ public class Chordfinder{
 				PApplet.main("GUI");
 				break;
 			default:
-				System.out.println("[key][mode]\nlike\tD#/Eb Major");
+				System.out.println("-s: [key][mode] like D#/Eb Major");
+				System.out.println("-a: to print all scales with guitar");
+				System.out.println("-g: to open the GUI");
 				break;
 			}
 		}
