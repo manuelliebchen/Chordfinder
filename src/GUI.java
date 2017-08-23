@@ -16,6 +16,7 @@ public class GUI extends PApplet {
 	
 	private int pianoX = 30;
 	private int pianoY = 0;
+	
 	private int guitarX = 130;
 	private int guitarY = 330;
 	
@@ -23,7 +24,6 @@ public class GUI extends PApplet {
 	
 	public GUI() {
 		super();
-		scale = new Scale(0, major);
 		guitare = new Guitar(scale);
 		piano = new Piano(scale);
 	}
@@ -39,6 +39,8 @@ public class GUI extends PApplet {
 		super.setup();
 		colorMode(HSB, 360, 100, 100);
 		noLoop();
+		
+		setScale(0);
 		
 	}
 	
@@ -78,7 +80,7 @@ public class GUI extends PApplet {
 				translate(PIANO_KEY_WIDTH/2, 0);
 				tune = 1;
 				for(int i = 0; i < 10; i++){
-					fill(0);
+					fill(0,0,0);
 					if(scale.inScale(tune)){
 						fill(getHueOfNote(scale.NoteInScale(tune)), 80, 80);
 					}
@@ -105,14 +107,17 @@ public class GUI extends PApplet {
 			translate(guitarX,guitarY);
 			rect(0,0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
 			
-			//Bars
-			pushMatrix();
-				translate(GUITAR_BAR_WIDTH, 0);
-				for(int i = 1; i < guitare.getString(0).getLenght(); i++){
-					line(0, 0, 0, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
-					translate(GUITAR_BAR_WIDTH, 0);
-				}
-			popMatrix();
+			//Dots
+			pushStyle();
+			stroke(0,0,50);
+			noFill();
+			ellipse( (3f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+			ellipse( (5f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,7,7);
+			ellipse( (7f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+			ellipse( (9f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+			ellipse( (12f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f + 5,3,3);
+			ellipse( (12f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f - 5,3,3);
+			popStyle();
 			
 			//Strings
 			pushMatrix();
@@ -128,19 +133,36 @@ public class GUI extends PApplet {
 					}
 					fill(0);
 					text(s.getTune(),-28,7);
-					line(0, 0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, 0);
+//					line(0, 0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, 0);
 					pushMatrix();
 						pushStyle();
+						noStroke();
 						for(int j = 1; j < s.getLenght(); j++){
 							if (scale.inScale(tune + j)) {
 								fill(getHueOfNote(scale.NoteInScale(tune + j)), 80, 80);
-								ellipse(25, 0, 25, 25);
+//								ellipse(25, 0, 25, 25);
+								rect(0f, -15f, 50, 30);
 							}
 							translate(50,0);
 						}
 						popStyle();
 					popMatrix();
+					line(0, 0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, 0);
 					translate(0, GUITAR_STRING_HEIGHT);
+				}
+			popMatrix();
+			
+			noFill();
+			rect(0,0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
+			
+			stroke(0,0,0);
+
+			//Bars
+			pushMatrix();
+				translate(GUITAR_BAR_WIDTH, 0);
+				for(int i = 1; i < guitare.getString(0).getLenght(); i++){
+					line(0, 0, 0, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
+					translate(GUITAR_BAR_WIDTH, 0);
 				}
 			popMatrix();
 		
@@ -149,6 +171,7 @@ public class GUI extends PApplet {
 		pushMatrix();
 			translate(PIANO_KEY_WIDTH * 3/5,PIANO_KEY_HEIGHT + GUITAR_STRING_HEIGHT);
 			fill(0,0,50);
+			stroke(0,0,0);
 			rect(0,0,50,50);
 			pushMatrix();
 				if(!major){
@@ -202,7 +225,7 @@ public class GUI extends PApplet {
 			}
 		}
 		
-		if(mouseX > 50 && mouseX < 100 && mouseY > 350 && mouseY < 400){
+		if(mouseX > 30 && mouseX < 80 && mouseY > 330 && mouseY < 380){
 			major = !major;
 			setScale(scale.getRoot());
 		}
@@ -216,7 +239,8 @@ public class GUI extends PApplet {
 		redraw();
 	}
 	
-	private final float[] toneColor = {0,30,60,120,180,240,300};
+//	private final float[] toneColor = {0,30,60,120,180,240,300};
+	private final float[] toneColor = {0,180,30,240,60,300,120};
 	
 	public float getHueOfNote(int inScale){
 		return toneColor[(inScale - 1)%7];
