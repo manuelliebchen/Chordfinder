@@ -25,7 +25,7 @@ public class Chordfinder{
 				System.out.println();
 				System.out.println(piano);
 				i+=2;
-				break;
+				return;
 			case "-a":
 				for(int j = 0; j < Scale.OCTAVE_LENGHT; j++){
 					scale = new Scale(j, true);
@@ -34,17 +34,16 @@ public class Chordfinder{
 					System.out.println(gitarre);
 					System.out.println();
 				}
-				break;
-			case "-g":
-				PApplet.main("GUI");
-				break;
-			default:
+				return;
+			case "-h":
+				System.out.println("-h: for this massage.");
 				System.out.println("-s: [key][mode] like D#/Eb Major");
 				System.out.println("-a: to print all scales with guitar");
-				System.out.println("-g: to open the GUI");
-				break;
+				System.out.println("default: to open the GUI");
+				return;
 			}
 		}
+		PApplet.main("GUI");
 	}
 	
 }

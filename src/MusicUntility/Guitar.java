@@ -2,7 +2,7 @@ package MusicUntility;
 
 public class Guitar {
 	
-	final static String[] NORMAL_TUNING = {"E","A","D","G","B","E"}; 
+	final static String[] NORMAL_TUNING = { "E","A","D","G","B","E"}; 
 
 	Site[] sites;
 	Scale scale;

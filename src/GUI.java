@@ -5,6 +5,9 @@ import MusicUntility.Site;
 import processing.core.PApplet;
 
 public class GUI extends PApplet {
+	private final int GUITAR_STRING_HEIGHT = 30;
+	private final int GUITAR_BAR_WIDTH = 50;
+	
 	Scale scale;
 	Guitar guitare;
 	Piano piano;
@@ -90,23 +93,23 @@ public class GUI extends PApplet {
 		
 		pushMatrix();
 		translate(150,350);
-		rect(0,0,600, 180);
+		rect(0,0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
 		
 		//Bars
 		pushMatrix();
-		translate(50, 0);
-		for(int i = 0; i < 14; i++){
-			line(0, 0, 0, 180);
-			translate(50, 0);
+		translate(GUITAR_BAR_WIDTH, 0);
+		for(int i = 1; i < guitare.getString(0).getLenght(); i++){
+			line(0, 0, 0, guitare.getStringNum() * GUITAR_STRING_HEIGHT);
+			translate(GUITAR_BAR_WIDTH, 0);
 		}
 		popMatrix();
 		
 		//Strings
 		pushMatrix();
-		translate(0, 15);
+		translate(0, GUITAR_STRING_HEIGHT * 0.5f);
 		fill(0);
 		textSize(20);
-		for(int i = 0; i < 6; i++){
+		for(int i = 0; i < guitare.getStringNum(); i++){
 			Site s = guitare.getString(i);
 			tune = s.getTuneNummber();
 			if(scale.inScale(tune)){
@@ -115,12 +118,10 @@ public class GUI extends PApplet {
 			}
 			fill(0);
 			text(s.getTune(),-28,7);
-			line(0, 0, 600, 0);
+			line(0, 0, (guitare.getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, 0);
 			pushMatrix();
 			pushStyle();
-			fill(128);
 			for(int j = 1; j < s.getLenght(); j++){
-				fill(128);
 				if (scale.inScale(tune + j)) {
 					fill(getHueOfNote(scale.NoteInScale(tune + j)), 80, 80);
 					ellipse(25, 0, 25, 25);
@@ -129,7 +130,7 @@ public class GUI extends PApplet {
 			}
 			popStyle();
 			popMatrix();
-			translate(0, 30);
+			translate(0, GUITAR_STRING_HEIGHT);
 		}
 		popMatrix();
 		
