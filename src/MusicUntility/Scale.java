@@ -42,6 +42,10 @@ public class Scale {
 		this(getNote(root), isMajor);
 	}
 	
+	public int getRoot(){
+		return root;
+	}
+	
 	public int NoteInScale(int note){
 		return scale[note%OCTAVE_LENGHT];
 	}
@@ -52,6 +56,10 @@ public class Scale {
 			return false;
 		}
 		return scale[note] != 0;
+	}
+	
+	public String getName(){
+		return Scale.getName(root) + "\'" + (isMajor ? "Major" : "Minor");
 	}
 	
 	@Override
