@@ -1,5 +1,4 @@
 package MusicUntility;
-import java.util.InputMismatchException;
 
 public class Scale {
 	final static int SCALE_LENGHT = 8;
@@ -7,31 +6,17 @@ public class Scale {
 	
 	final static int[] MAJOR = {2,2,1,2,2,2,1,2,2};
 	final static int[] MINOR = {2,1,2,2,1,2,2,2,1};
-	final static String[] NAMES = {
-		"C",
-		"C#/Db",
-		"D",
-		"D#/Eb",
-		"E",
-		"F",
-		"F#/Gb",
-		"G",
-		"G#/Ab",
-		"A",
-		"A#/Bb",
-		"B"
-	};
 	
-	int root = 0;
+	Tune root = Tune.C;
 	boolean isMajor = true;
 	
 	int[] scale = {1,0,2,0,3,4,0,5,0,6,0,7};
 	
-	public Scale(int root, boolean isMajor){
+	public Scale(Tune root, boolean isMajor){
 		this.root = root;
 		this.isMajor = isMajor;
 		
-		scale = Scale.getScale(root, isMajor);
+		scale = Scale.getScale(this.root, isMajor);
 	}
 	
 	/**
@@ -39,10 +24,10 @@ public class Scale {
 	 * @param isMajor - whether or not it is a major or a minor scale.
 	 */
 	public Scale(String root, boolean isMajor){
-		this(getNote(root), isMajor);
+		this(Note.parseString(root), isMajor);
 	}
 	
-	public int getRoot(){
+	public Tune getRoot(){
 		return root;
 	}
 	
@@ -59,60 +44,46 @@ public class Scale {
 	}
 	
 	public String getName(){
-		return Scale.getName(root) + "\'" + (isMajor ? "Major" : "Minor");
+		return Note.toString(root) + "\'" + (isMajor ? "Major" : "Minor");
 	}
 	
 	@Override
 	public String toString() {
-		String s = "Scale:\n" + getName(root) + "\'" + (isMajor ? "Major" : "Minor") + ": ";
-		int note = root;
+		String s = "Scale:\n" + Note.toString(root) + "\'" + (isMajor ? "Major" : "Minor") + ": ";
+		Tune note = root;
 		for(int i = 0; i < SCALE_LENGHT-1; i++){
-			s += String.format(" %s ", center(getName(note), 5));
+			s += String.format(" %s ", center(Note.toString(note), 5));
 			if((isMajor?MAJOR:MINOR)[i] == 2){
 				s+= "^";
 			} else {
 				s+= "-";
 			}
-			note = (note + (isMajor ? MAJOR : MINOR)[i]) % OCTAVE_LENGHT;
+			note = Note.parseInteger((Note.toInteger(note) + (isMajor ? MAJOR : MINOR)[i]));
 		}
 		return s;
 	}
 	
 	public String printChord() {
 		String s = "Chords:\n";
-		int note = root;
+		Tune note = root;
 		int[] halfsteps = (isMajor ? MAJOR : MINOR);
 		for(int i = 0; i < SCALE_LENGHT-1; i++){
-			s += String.format("%s ", getName(note));
-			note = (note + halfsteps[i]) % OCTAVE_LENGHT;
+			s += String.format("%s ", Note.toString(note));
+			note = Note.parseInteger((Note.toInteger(note) + (isMajor ? MAJOR : MINOR)[i]));
 			s += (halfsteps[i] + halfsteps[(i+1) % SCALE_LENGHT] == 4) ? "Maj" : "Min";
 			s += " - ";
 		}
 		return s;
 	}
 	
-	public static int[] getScale(int root, boolean isMajor){
+	public static int[] getScale(Tune root, boolean isMajor){
 		int[] scale = new int[OCTAVE_LENGHT];
-		root = root % OCTAVE_LENGHT;
-		int n = root;
+		int n = Note.toInteger(root);
 		for(int i = 0; i+1 < SCALE_LENGHT ; i++){
 			scale[n] = i+1;
 			n = (n + (isMajor ? MAJOR : MINOR)[i]) % OCTAVE_LENGHT;
 		}
 		return scale;
-	}
-	
-	public static String getName(int note){
-		return NAMES[note%12];
-	}
-	
-	public static int getNote(String s){
-		for(int i = 0; i<NAMES.length; ++i){
-			if(s.equals(NAMES[i])){
-				return i;
-			}
-		}
-		throw new InputMismatchException("This is no Note");
 	}
 	
 	public static String center(String input, int lenght){

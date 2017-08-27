@@ -11,30 +11,30 @@ public class Site {
 	
 	Site(String tune){
 		this.length = 13;
-		this.tune = Scale.getNote(tune);
+		this.tune = Note.parseStringToInteger(tune);
 	}
 	
 	public String printScale(Scale scale) {
-		String s = Scale.getName(tune);
+		String s = Note.parseIntegerToString(tune);
 		if(scale.inScale(tune)){
 			s+= scale.NoteInScale(tune) + ":";
 		} else{
 			s+= " :";
 		}
-		int node = (tune+1)%Scale.OCTAVE_LENGHT;
+		int note = (tune+1)%Scale.OCTAVE_LENGHT;
 		for(int i = 0; i < length; i++){
-			if(scale.inScale(node)){
-				s += String.format("  %1d |", scale.NoteInScale(node));
+			if(scale.inScale(note)){
+				s += String.format("  %1d |", scale.NoteInScale(note));
 			} else {
 				s += "    |";
 			}
-			node = (node +1)%Scale.OCTAVE_LENGHT;
+			note = (note +1)%Scale.OCTAVE_LENGHT;
 		}
 		return s;
 	}
 	
 	public String getTune(){
-		return Scale.getName(tune);
+		return Note.parseIntegerToString(tune);
 	}
 	
 	public int getTuneNummber(){
@@ -47,11 +47,11 @@ public class Site {
 	
 	@Override
 	public String toString() {
-		String s = Scale.getName(tune) + ":  ";
-		int node = tune+1;
+		String s = Note.parseIntegerToString(tune) + ":  ";
+		int note = tune+1;
 		for(int i = 0; i < length; i++){
-			s += String.format("%5s |  ", Scale.getName(node));
-			node = (node +1)%Scale.OCTAVE_LENGHT;
+			s += String.format("%5s |  ", Note.parseIntegerToString(note));
+			note = (note +1)%Scale.OCTAVE_LENGHT;
 		}
 		return s;
 	}

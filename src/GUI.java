@@ -1,12 +1,12 @@
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import MusicUntility.Guitar;
-import MusicUntility.Piano;
-import MusicUntility.Scale;
-import MusicUntility.Site;
+import MusicUntility.*;
+
 import processing.core.PApplet;
-import sun.misc.Queue;
 
 public class GUI extends PApplet {
 	private final int GUITAR_STRING_HEIGHT = 30;
@@ -28,9 +28,9 @@ public class GUI extends PApplet {
 	
 	public GUI() {
 		super();
-		guitare = new Guitar(scale);
+		guitare = new Guitar();
 		readFile();
-		piano = new Piano(scale);
+		piano = new Piano();
 	}
 	
 	@Override
@@ -44,8 +44,7 @@ public class GUI extends PApplet {
 		colorMode(HSB, 360, 100, 100);
 		noLoop();
 		
-		setScale(0);
-		
+		setScale(Tune.C);
 	}
 	
 	@Override
@@ -201,7 +200,7 @@ public class GUI extends PApplet {
 			int xpos = 35+pianoX;
 			for(int i = 0; i < 10; i++){
 				if(mouseX > xpos && mouseX < xpos + 30 && mouseY > pianoY && mouseY < pianoY + PIANO_KEY_HEIGHT * 2/3){
-					setScale(tune);				
+					setScale(Note.parseInteger(tune));				
 					return;
 				}
 				xpos += PIANO_KEY_WIDTH;
@@ -217,7 +216,7 @@ public class GUI extends PApplet {
 			xpos = pianoX;
 			for(int i = 0; i < 14; i++){
 				if(mouseX > xpos && mouseX < xpos + PIANO_KEY_WIDTH && mouseY > pianoY && mouseY < pianoY + PIANO_KEY_HEIGHT){
-					setScale(tune);				
+					setScale(Note.parseInteger(tune));				
 					return;
 				}
 				xpos += PIANO_KEY_WIDTH;
@@ -234,37 +233,50 @@ public class GUI extends PApplet {
 		}
 	}
 	
-	private void setScale(int tune){
-		this.scale = new Scale(tune, major);
-		guitare.setScale(scale);
-		piano.setScale(scale);
+	private void setScale(Tune tune){
+		this.scale = new Scale( tune, major);
 		getSurface().setTitle(scale.getName());
 		redraw();
 	}
 	
 	private void readFile(){
+		if(System.getProperty("os.name").equals("Linux")){
+			File f = new File(System.getenv("HOME") + "/.chordfinder/tune.txt");
+			parseTunesFile(f);
+		}
+		if(guitare != null){
+			return;
+		}
 		File f = new File("tune.txt");
+		parseTunesFile(f);
+	}
+	
+	private void parseTunesFile(File f) {
 		if(f.isFile()){
-			Queue<String> tunes = new Queue<>();
+			System.out.println("Found Tunes");
+			ArrayList<String> tunes = new ArrayList<>();
 			int num = 0;
-			try{
+			try {
 				Scanner sc = new Scanner(f);
 				while(sc.hasNextLine()){
-					tunes.enqueue(sc.nextLine());
+					String nextNote = sc.nextLine();
+					try {
+						Note.parseString(nextNote);
+					} catch (InputMismatchException e) {
+						sc.close();
+						throw new InputMismatchException("tune.txt is wrongly formated.");
+					} 
+					tunes.add(nextNote);
 					num++;
 				}
 				sc.close();
-			} catch (Exception e) {
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
 			}
 			if(num > 0){
-				String[] sTunes = new String[num];
-				for(int i = 0; i < sTunes.length; i++){
-					try {
-						sTunes[i] = tunes.dequeue();
-					} catch (InterruptedException e) {
-					}
-				}
-				guitare = new Guitar(sTunes, scale);
+				String[] sTunes = new String[0];
+				sTunes = tunes.toArray(sTunes);
+				guitare = new Guitar(sTunes);
 			}
 		}
 	}

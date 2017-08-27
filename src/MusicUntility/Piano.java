@@ -1,7 +1,6 @@
 package MusicUntility;
 public class Piano {
 	
-	Scale scale;
 	String pianoLayout= 
 			 "|  |     |     |  |  |     |     |     |  |\n"
 			+"|  |     |     |  |  |     |     |     |  |\n"
@@ -17,17 +16,8 @@ public class Piano {
 			+"|     |     |     |     |     |     |     |\n"
 			+"|_____|_____|_____|_____|_____|_____|_____|";
 			
-
-	public Piano(Scale scale){
-		this.scale = scale;
-	}
 	
-	public void setScale(Scale scale) {
-		this.scale = scale;
-	}
-	
-	@Override
-	public String toString() {
+	public String printScale(Scale scale) {
 		char[] chars = new char[12];
 		for(int i = 0; i < chars.length; ++i){
 			chars[i] = (scale.inScale(i) ? Character.forDigit(scale.NoteInScale(i), 10) : ' ');

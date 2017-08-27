@@ -6,22 +6,16 @@ public class Guitar {
 	public final static String[] UKULELE_TUNING = { "G", "C", "E", "A"}; 
 
 	Site[] sites;
-	Scale scale;
 	
-	public Guitar(String[] s, Scale scale){
+	public Guitar(String[] s){
 		sites = new Site[s.length];
 		for(int i = 0; i < s.length; i++){
 			sites[i] = new Site(s[i]);
 		}
-		this.scale = scale;
 	}
 	
-	public Guitar( Scale scale){
-		this(NORMAL_TUNING, scale);
-	}
-	
-	public void setScale(Scale scale){
-		this.scale = scale;
+	public Guitar(){
+		this(NORMAL_TUNING);
 	}
 	
 	public int getLength(){
@@ -36,8 +30,7 @@ public class Guitar {
 		return sites[n];
 	}
 	
-	@Override
-	public String toString() {
+	public String printScale(Scale scale) {
 		String s = "Guitar:\n";
 		s += Site.printFret(12);
 		for(Site si : sites){
