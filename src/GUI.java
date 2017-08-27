@@ -6,7 +6,6 @@ import MusicUntility.Piano;
 import MusicUntility.Scale;
 import MusicUntility.Site;
 import processing.core.PApplet;
-import processing.core.PImage;
 import sun.misc.Queue;
 
 public class GUI extends PApplet {
@@ -42,8 +41,6 @@ public class GUI extends PApplet {
 	
 	@Override
 	public void setup() {
-		PImage icon = loadImage("src/icon/icon.png");
-		getSurface().setIcon(icon);
 		colorMode(HSB, 360, 100, 100);
 		noLoop();
 		
