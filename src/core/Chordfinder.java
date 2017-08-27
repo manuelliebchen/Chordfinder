@@ -1,3 +1,4 @@
+package core;
 import MusicUntility.Guitar;
 import MusicUntility.Note;
 import MusicUntility.Piano;
@@ -45,7 +46,7 @@ public class Chordfinder{
 				return;
 			}
 		}
-		PApplet.main("GUI");
+		PApplet.main("core.GUI");
 	}
 	
 }

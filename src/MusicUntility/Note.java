@@ -2,14 +2,9 @@ package MusicUntility;
 
 import java.util.InputMismatchException;
 
-public class Note{
+public final class Note{
 	
-	Tune tune;
-	int pitch;
-	
-	public Note(Tune tune){
-		this.tune = tune;
-	}
+	private Note(){}
 	
 	public static int toInteger(Tune tune){
 		switch (tune) {
@@ -104,11 +99,25 @@ public class Note{
 		throw new InputMismatchException("This is no Note");
 	}
 	
+	public static int getMIDI(Tune tune, int octave){
+		return toInteger(tune) + (octave + 1) * 12;
+	}
+	
+	public static float getFrequency(int MIDI){
+		return (float) (440f * Math.pow(2f, (MIDI-69f)/12f));
+	}
+	
 	public static String parseIntegerToString(int tune){
 		return toString(parseInteger(tune));
 	}
 	
 	public static int parseStringToInteger(String tune){
 		return toInteger(parseString(tune));
+	}
+	
+	private final static float[] TUNE_HUE = {0,180,30,240,60,300,120};
+
+	public static float getHueOfNote(int inScale){
+		return TUNE_HUE[(inScale - 1)%7];
 	}
 }
