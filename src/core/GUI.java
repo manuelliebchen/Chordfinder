@@ -165,11 +165,4 @@ public class GUI extends PApplet {
 			}
 		}
 	}
-	
-//	private final float[] toneColor = {0,30,60,120,180,240,300};
-	private final float[] toneColor = {0,180,30,240,60,300,120};
-	
-	public float getHueOfNote(int inScale){
-		return toneColor[(inScale - 1)%7];
-	}
 }
