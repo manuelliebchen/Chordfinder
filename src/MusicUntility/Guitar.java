@@ -43,9 +43,10 @@ public class Guitar {
 
 	private final int GUITAR_STRING_HEIGHT = 30;
 	private final int GUITAR_BAR_WIDTH = 50;
+	private final int[] GUITAR_BAR = {67,64,60,57,53,50,48,45,42,40,38,36};
 	
 	public void draw(PApplet applet, Scale scale){
-
+		
 		//Draw Guitar
 		applet.pushStyle();
 		applet.fill(0, 0, 100);
@@ -56,16 +57,23 @@ public class Guitar {
 		applet.rect(0,0, (getString(0).getLenght() -1) * GUITAR_BAR_WIDTH, getStringNum() * GUITAR_STRING_HEIGHT);
 		
 		//Dots
+		applet.pushMatrix();
 		applet.pushStyle();
 		applet.stroke(0,0,50);
 		applet.noFill();
-		applet.ellipse( (3f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
-		applet.ellipse( (5f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,7,7);
-		applet.ellipse( (7f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
-		applet.ellipse( (9f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
-		applet.ellipse( (12f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f + 5,3,3);
-		applet.ellipse( (12f - 0.5f) * GUITAR_BAR_WIDTH, -GUITAR_STRING_HEIGHT * 0.5f - 5,3,3);
+		applet.translate(GUITAR_BAR[0]+GUITAR_BAR[1], 0);
+		applet.ellipse( GUITAR_BAR[2] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+		applet.translate(GUITAR_BAR[2]+GUITAR_BAR[3], 0);
+		applet.ellipse( GUITAR_BAR[4] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f,7,7);
+		applet.translate(GUITAR_BAR[4]+GUITAR_BAR[5], 0);
+		applet.ellipse( GUITAR_BAR[6] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+		applet.translate(GUITAR_BAR[6]+GUITAR_BAR[7], 0);
+		applet.ellipse( GUITAR_BAR[8] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f,3,3);
+		applet.translate(GUITAR_BAR[8]+GUITAR_BAR[9]+GUITAR_BAR[10], 0);
+		applet.ellipse( GUITAR_BAR[11] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f + 5,3,3);
+		applet.ellipse( GUITAR_BAR[11] * 0.5f, -GUITAR_STRING_HEIGHT * 0.5f - 5,3,3);
 		applet.popStyle();
+		applet.popMatrix();
 		
 		//Strings
 		applet.pushMatrix();
@@ -89,9 +97,9 @@ public class Guitar {
 						if (scale.inScale(tune + j)) {
 							applet.fill(Note.getHueOfNote(scale.NoteInScale(tune + j)), 80, 80);
 //							ellipse(25, 0, 25, 25);
-							applet.rect(0f, -15f, 50, 30);
+							applet.rect(0f, -15f, GUITAR_BAR[j-1], 30);
 						}
-						applet.translate(50,0);
+						applet.translate(GUITAR_BAR[j-1],0);
 					}
 					applet.popStyle();
 				applet.popMatrix();
@@ -107,10 +115,11 @@ public class Guitar {
 
 		//Bars
 		applet.pushMatrix();
-			applet.translate(GUITAR_BAR_WIDTH, 0);
+//			applet.translate(GUITAR_BAR_WIDTH, 0);
 			for(int i = 1; i < getString(0).getLenght(); i++){
 				applet.line(0, 0, 0, getStringNum() * GUITAR_STRING_HEIGHT);
-				applet.translate(GUITAR_BAR_WIDTH, 0);
+				applet.translate(GUITAR_BAR[i-1], 0);
+//				applet.translate(GUITAR_BAR_WIDTH, 0);
 			}
 		applet.popMatrix();
 		
